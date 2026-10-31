@@ -1,0 +1,108 @@
+{
+  "name": "qvint010",
+  "description": "Imported from https://github.com/Nivetha200111/quarrystone-valley-cu-cobol at f436c5fb2f21",
+  "program": "QVINT010",
+  "source": "src/QVINT010.cbl",
+  "modules": [],
+  "collation": "ebcdic",
+  "copybookDir": "copybooks",
+  "dd": {
+    "input": "ACCTIN",
+    "output": "INTOUT"
+  },
+  "javaConversion": {
+    "dir": "java-conversion",
+    "mainClass": "Qvint010",
+    "origin": "none yet: translate with the converter's run command"
+  },
+  "layoutsNote": "Derived from the copybooks by services/analyzer.",
+  "layouts": {
+    "input": {
+      "record": "QA-REC",
+      "fields": [
+        {
+          "name": "QA-ACCT-ID",
+          "kind": "alnum",
+          "length": 10
+        },
+        {
+          "name": "QA-BALANCE",
+          "kind": "numeric",
+          "digits": 9,
+          "scale": 2,
+          "signed": true,
+          "sign": "leading-separate"
+        },
+        {
+          "name": "QA-RATE",
+          "kind": "numeric",
+          "digits": 1,
+          "scale": 4,
+          "signed": false
+        },
+        {
+          "name": "QA-DAYS",
+          "kind": "numeric",
+          "digits": 3,
+          "scale": 0,
+          "signed": false
+        },
+        {
+          "name": "QA-TIER",
+          "kind": "alnum",
+          "length": 1,
+          "values": [
+            "P",
+            "S"
+          ]
+        },
+        {
+          "name": "QA-NSF-COUNT",
+          "kind": "numeric",
+          "digits": 2,
+          "scale": 0,
+          "signed": false
+        }
+      ],
+      "format": "line"
+    },
+    "output": {
+      "record": "QI-REC",
+      "fields": [
+        {
+          "name": "QI-ACCT-ID",
+          "kind": "alnum",
+          "length": 10
+        },
+        {
+          "name": "QI-INTEREST",
+          "kind": "numeric",
+          "digits": 7,
+          "scale": 2,
+          "signed": true,
+          "sign": "leading-separate"
+        },
+        {
+          "name": "QI-NEW-BAL",
+          "kind": "numeric",
+          "digits": 9,
+          "scale": 2,
+          "signed": true,
+          "sign": "leading-separate"
+        },
+        {
+          "name": "QI-FLAG",
+          "kind": "alnum",
+          "length": 2
+        }
+      ],
+      "format": "line"
+    }
+  },
+  "import": {
+    "repository": "https://github.com/Nivetha200111/quarrystone-valley-cu-cobol",
+    "commit": "f436c5fb2f2183fbc157c6f1d3dc123d8b4516d7",
+    "path": "src/QVINT010.cbl",
+    "job": null
+  }
+}

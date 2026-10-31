@@ -1,0 +1,59 @@
+name: reverify
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  reverify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '21'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      # The verifier compiles with options only GnuCOBOL 3.2 knows (-fdefault-colseq=EBCDIC): the distribution package is older.
+      - name: Cache GnuCOBOL 3.2
+        id: gnucobol
+        uses: actions/cache@v4
+        with:
+          path: ~/gnucobol
+          key: gnucobol-3.2-ubuntu-24.04-v2-db
+      - name: Build GnuCOBOL 3.2 (the version Diocle certifies with)
+        if: steps.gnucobol.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q libgmp-dev libdb-dev
+          curl -sSfL https://ftp.gnu.org/gnu/gnucobol/gnucobol-3.2.tar.xz | tar xJ
+          cd gnucobol-3.2
+          ./configure -q --prefix="$HOME/gnucobol" --with-db --with-curses=no --without-xml2 --without-json
+          make -s -j"$(nproc)" && make -s install
+      - name: Install the Berkeley DB runtime (needed by the cached build too)
+        run: sudo apt-get update -q && sudo apt-get install -y -q libdb5.3t64
+      - name: Put GnuCOBOL on the path
+        run: |
+          echo "$HOME/gnucobol/bin" >> "$GITHUB_PATH"
+          echo "LD_LIBRARY_PATH=$HOME/gnucobol/lib" >> "$GITHUB_ENV"
+      - name: Install the pinned verifier
+        run: |
+          git clone https://github.com/Nivetha200111/Diocle.git "$RUNNER_TEMP/diocle"
+          git -C "$RUNNER_TEMP/diocle" checkout c76e8b0b5d608a1c1b0e121b6f180dec48c3986e
+          pip install "$RUNNER_TEMP/diocle/services/analyzer" "$RUNNER_TEMP/diocle/services/verifier"
+      - name: Compile every program together (whole-repository build)
+        run: |
+          set -eu
+          [ -d programs ] || { echo "no programs/ directory: nothing to compile"; exit 0; }
+          extra=""
+          # Programs with embedded SQL use the verifier's own DioSql.java, which is not delivered with them: take it from the pinned commit.
+          if grep -rlqw DioSql programs && [ -z "$(find programs -name DioSql.java)" ]; then
+            extra="$RUNNER_TEMP/diocle/services/verifier/diocle_verifier/dbsupport/DioSql.java"
+          fi
+          mkdir -p "$RUNNER_TEMP/out"
+          # One quoted path per line in an @argfile: spaces in names are safe and the command line never hits ARG_MAX.
+          find programs -name '*.java' -print | sort | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/"/' -e 's/$/"/' > "$RUNNER_TEMP/files.txt"
+          if [ -n "$extra" ]; then printf '"%s"\n' "$extra" >> "$RUNNER_TEMP/files.txt"; fi
+          javac -proc:none -d "$RUNNER_TEMP/out" @"$RUNNER_TEMP/files.txt"
+      - name: Re-verify on fresh inputs
+        run: python -m diocle_verifier.reverify programs --seed 777777 --expect-legacy https://github.com/Nivetha200111/quarrystone-valley-cu-cobol --summary "$GITHUB_STEP_SUMMARY"

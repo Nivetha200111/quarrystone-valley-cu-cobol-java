@@ -1,0 +1,207 @@
+{
+  "version": "0.1",
+  "verdict": "pass",
+  "reasons": [],
+  "scope": {
+    "checked": [
+      "3 program(s): each compiled alone and all 3 Java file(s) compiled together with javac -proc:none",
+      "top-level class names across programs",
+      "5 copybook(s) for drift between files (text and analyzer layout)",
+      "0 static CALL statement(s): target present, USING count and argument lengths where both sides are plain items"
+    ],
+    "notChecked": [
+      "behaviour of the programs together: each program is verified on its own by differential testing against the original COBOL",
+      "that the programs' files and datasets line up at run time (JCL step order, DD wiring)",
+      "CALL USING arguments that are subscripted, computed, BY VALUE or outside WORKING-STORAGE/LINKAGE items",
+      "dynamic CALLs and programs outside this repository"
+    ]
+  },
+  "programs": [
+    {
+      "name": "QVFEE020",
+      "mainClass": "Qvfee020",
+      "javaFiles": [
+        "Qvfee020.java"
+      ],
+      "classes": [
+        "Qvfee020"
+      ],
+      "compile": {
+        "status": "ok",
+        "javacExit": 0,
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "QVINT010",
+      "mainClass": "Qvint010",
+      "javaFiles": [
+        "Qvint010.java"
+      ],
+      "classes": [
+        "Qvint010"
+      ],
+      "compile": {
+        "status": "ok",
+        "javacExit": 0,
+        "diagnostics": []
+      }
+    },
+    {
+      "name": "QVLON030",
+      "mainClass": "Qvlon030",
+      "javaFiles": [
+        "Qvlon030.java"
+      ],
+      "classes": [
+        "Qvlon030"
+      ],
+      "compile": {
+        "status": "ok",
+        "javacExit": 0,
+        "diagnostics": []
+      }
+    }
+  ],
+  "whole": {
+    "compile": {
+      "status": "ok",
+      "javacExit": 0,
+      "diagnostics": []
+    },
+    "sources": 3
+  },
+  "classCollisions": [],
+  "copybooks": {
+    "names": [
+      "QVACCT",
+      "QVFEEO",
+      "QVINTO",
+      "QVLATE",
+      "QVLOAN"
+    ],
+    "drift": []
+  },
+  "calls": {
+    "checked": 0,
+    "findings": []
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "ACCTIN",
+        "kind": "file"
+      },
+      {
+        "id": "FEEOUT",
+        "kind": "file"
+      },
+      {
+        "id": "INTOUT",
+        "kind": "file"
+      },
+      {
+        "id": "LATEOUT",
+        "kind": "file"
+      },
+      {
+        "id": "LOANIN",
+        "kind": "file"
+      },
+      {
+        "id": "QVACCT",
+        "kind": "copybook"
+      },
+      {
+        "id": "QVFEE020",
+        "kind": "program"
+      },
+      {
+        "id": "QVFEEO",
+        "kind": "copybook"
+      },
+      {
+        "id": "QVINT010",
+        "kind": "program"
+      },
+      {
+        "id": "QVINTO",
+        "kind": "copybook"
+      },
+      {
+        "id": "QVLATE",
+        "kind": "copybook"
+      },
+      {
+        "id": "QVLOAN",
+        "kind": "copybook"
+      },
+      {
+        "id": "QVLON030",
+        "kind": "program"
+      }
+    ],
+    "edges": [
+      {
+        "from": "QVFEE020",
+        "to": "ACCTIN",
+        "kind": "file"
+      },
+      {
+        "from": "QVFEE020",
+        "to": "FEEOUT",
+        "kind": "file"
+      },
+      {
+        "from": "QVFEE020",
+        "to": "QVACCT",
+        "kind": "copy"
+      },
+      {
+        "from": "QVFEE020",
+        "to": "QVFEEO",
+        "kind": "copy"
+      },
+      {
+        "from": "QVINT010",
+        "to": "ACCTIN",
+        "kind": "file"
+      },
+      {
+        "from": "QVINT010",
+        "to": "INTOUT",
+        "kind": "file"
+      },
+      {
+        "from": "QVINT010",
+        "to": "QVACCT",
+        "kind": "copy"
+      },
+      {
+        "from": "QVINT010",
+        "to": "QVINTO",
+        "kind": "copy"
+      },
+      {
+        "from": "QVLON030",
+        "to": "LATEOUT",
+        "kind": "file"
+      },
+      {
+        "from": "QVLON030",
+        "to": "LOANIN",
+        "kind": "file"
+      },
+      {
+        "from": "QVLON030",
+        "to": "QVLATE",
+        "kind": "copy"
+      },
+      {
+        "from": "QVLON030",
+        "to": "QVLOAN",
+        "kind": "copy"
+      }
+    ]
+  }
+}

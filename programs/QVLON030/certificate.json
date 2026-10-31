@@ -1,0 +1,43 @@
+{
+  "version": "0.1",
+  "program": "QVLON030",
+  "legacy": {
+    "repository": "https://github.com/Nivetha200111/quarrystone-valley-cu-cobol",
+    "commit": "f436c5fb2f2183fbc157c6f1d3dc123d8b4516d7",
+    "path": "src/QVLON030.cbl",
+    "copybooks": [
+      "copybook/QVLOAN.cpy",
+      "copybook/QVLATE.cpy"
+    ],
+    "modules": [],
+    "job": null
+  },
+  "java": {
+    "mainClass": "Qvlon030",
+    "files": [
+      "Qvlon030.java"
+    ]
+  },
+  "verification": {
+    "passed": 1016,
+    "total": 1016,
+    "stdoutMatch": true,
+    "seed": 4243,
+    "verifier": {
+      "repository": "https://github.com/Nivetha200111/Diocle",
+      "commit": "c76e8b0b5d608a1c1b0e121b6f180dec48c3986e",
+      "gnucobol": "cobc (GnuCOBOL) 3.2.0"
+    }
+  },
+  "agent": {
+    "runId": "qvlon030-20261101-011741",
+    "model": "muse-spark-1.3-contributor",
+    "mode": "translate",
+    "rounds": 1,
+    "modelCalls": 10,
+    "totalTokens": 120310,
+    "estimatedCostUsd": 0.027915,
+    "memoryLessonsUsed": 10
+  },
+  "issuedAt": "2026-10-31T20:17:10+00:00"
+}
