@@ -1,0 +1,96 @@
+{
+  "name": "qvlon030",
+  "description": "Imported from https://github.com/Nivetha200111/quarrystone-valley-cu-cobol at f436c5fb2f21",
+  "program": "QVLON030",
+  "source": "src/QVLON030.cbl",
+  "modules": [],
+  "collation": "ebcdic",
+  "copybookDir": "copybooks",
+  "dd": {
+    "input": "LOANIN",
+    "output": "LATEOUT"
+  },
+  "javaConversion": {
+    "dir": "java-conversion",
+    "mainClass": "Qvlon030",
+    "origin": "none yet: translate with the converter's run command"
+  },
+  "layoutsNote": "Derived from the copybooks by services/analyzer.",
+  "layouts": {
+    "input": {
+      "record": "QL-REC",
+      "fields": [
+        {
+          "name": "QL-LOAN-ID",
+          "kind": "alnum",
+          "length": 10
+        },
+        {
+          "name": "QL-PAYMENT-DUE",
+          "kind": "numeric",
+          "digits": 7,
+          "scale": 2,
+          "signed": false
+        },
+        {
+          "name": "QL-DAYS-LATE",
+          "kind": "numeric",
+          "digits": 3,
+          "scale": 0,
+          "signed": false
+        },
+        {
+          "name": "QL-PRIOR-LATE",
+          "kind": "numeric",
+          "digits": 2,
+          "scale": 0,
+          "signed": false
+        },
+        {
+          "name": "QL-TYPE",
+          "kind": "alnum",
+          "length": 1,
+          "values": [
+            "M",
+            "C"
+          ]
+        }
+      ],
+      "format": "line"
+    },
+    "output": {
+      "record": "QT-REC",
+      "fields": [
+        {
+          "name": "QT-LOAN-ID",
+          "kind": "alnum",
+          "length": 10
+        },
+        {
+          "name": "QT-LATE-FEE",
+          "kind": "numeric",
+          "digits": 5,
+          "scale": 2,
+          "signed": false
+        },
+        {
+          "name": "QT-GRACE",
+          "kind": "alnum",
+          "length": 1
+        },
+        {
+          "name": "QT-CODE",
+          "kind": "alnum",
+          "length": 4
+        }
+      ],
+      "format": "line"
+    }
+  },
+  "import": {
+    "repository": "https://github.com/Nivetha200111/quarrystone-valley-cu-cobol",
+    "commit": "f436c5fb2f2183fbc157c6f1d3dc123d8b4516d7",
+    "path": "src/QVLON030.cbl",
+    "job": null
+  }
+}
